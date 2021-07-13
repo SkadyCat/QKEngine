@@ -1,6 +1,7 @@
 ﻿set(Glad_LIBRARY "Glad")
 set(Glad_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/glad.c
+	
 )
 set(Glad_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/include
