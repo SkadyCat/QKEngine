@@ -31,7 +31,6 @@ Shader::Shader(string vName, string fName)
 		// convert stream into string
 		vertexCode = vShaderStream.str();
 		fragmentCode = fShaderStream.str();
-		cout << vertexCode << vp << endl;
 	}
 	catch (std::ifstream::failure e)
 	{
@@ -79,6 +78,7 @@ Shader::Shader(string vName, string fName)
 		glGetProgramInfoLog(ID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
+	
 	//Ð¶ÔØµ÷¶¥µãShader and fragment shadter
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
@@ -88,6 +88,7 @@ void Shader::use()
 {
 	glUseProgram(ID);
 }
+
 
 void Shader::setBool(const std::string & name, bool value) const
 {
@@ -100,4 +101,9 @@ void Shader::setInt(const std::string & name, int value) const
 
 void Shader::setFloat(const std::string & name, float value) const
 {
+}
+
+Shader::~Shader()
+{
+	glDeleteShader(ID);
 }

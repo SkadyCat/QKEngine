@@ -8,10 +8,10 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
+#include <Element.h>
 using namespace std;
 
-class SimpleData
+class SimpleData : public Element
 {
 public:
 	unsigned int VAO;
@@ -19,11 +19,15 @@ public:
 	int size;
 	// the program ID
 	unsigned int ID;
+	unsigned int VBO;
 	// constructor reads and builds the shader
+	SimpleData();
 	SimpleData(string vName);
 	// use/activate the shader
-	void use();
 
+	virtual float * readFromPath(string fName);
+	virtual void use() override;
+	
 	~SimpleData();
 };
 

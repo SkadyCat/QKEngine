@@ -30,7 +30,15 @@ string&  replace_all_distinct(string&  str, const string& old_value, const  stri
 	}
 	return  str;
 }
-
+bool contains(string origin, string dst)
+{
+	string::size_type idx = origin.find(dst);
+	if (idx != string::npos)
+	{
+		return true;
+	}
+	return false;
+}
 vector<string> split(const string & str, const string & delim)
 {
 	vector<string> res;
