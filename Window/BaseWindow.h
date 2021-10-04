@@ -1,8 +1,9 @@
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <time.h>
 #include <iostream>
-#include <Res.h>
+//#include <Res.h>
 
 #include<functional>
 using namespace std;
@@ -23,13 +24,13 @@ private:
     clock_t lastTimes;
     GLFWwindow* window;
 	function<void()> connectCallBack;
-	Resources res;
+	//Resources res;
 	unsigned int shaderProgram;
 	int resIndex;
 	
 public:
-	unordered_map<int, vector<float>> data;
-	unordered_map<string, GLuint> buffers;
+	//unordered_map<int, vector<float>> data;
+	//unordered_map<string, GLuint> buffers;
 
 	void addBuffer(string name, BufferType type);
 	void addVAO(string name, function<void()> callBack);
