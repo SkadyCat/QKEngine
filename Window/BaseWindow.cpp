@@ -4,11 +4,9 @@
 
 
 
-
-
-void BaseWindow::addElement(shared_ptr<Element> element)
+void BaseWindow::addModel(shared_ptr<Model> md)
 {
-	items.push_back(element);
+	models.push_back(md);
 }
 
 void BaseWindow::setDrawEvent(function<void()> connectCallBack)
@@ -42,18 +40,29 @@ BaseWindow::BaseWindow()
 	}
 }
 void BaseWindow::run(){
+	for (auto e : this->models)
+	{
+		e->init();
+	}
+	glfwWaitEventsTimeout(0.5f);
+
     while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		
 		clock_t now =  clock();
-		for (auto e : this->items)
-		{
-			e->use();
+		if (now - lastTimes > 50) {
+			cout << now - lastTimes << endl;
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			lastTimes = now;
+			for (auto e : this->models)
+			{
+				e->draw();
+			}
+			glfwSwapBuffers(window);
+			glfwPollEvents();
 		}
-		lastTimes = now;
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		
 	}
 }
 void BaseWindow::shutDown(){

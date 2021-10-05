@@ -3,20 +3,23 @@
 #include <SimpleData.h>
 #include <TextureData.h>
 #include <Texture.h>
+#include <Model.h>
 int main(int argc, char *argv[])
 {
 	BaseWindow window;
-
-	Shader shader("vertex","fragment");
-	SimpleData sd("test");
-	SimpleData sd2("test2");
-	TextureData sd3("test");
-	Texture tt("pp.jpg",500,500);
-
-	window.addElement(make_shared<Texture>(tt));
-	window.addElement(make_shared<TextureData>(sd3));
-	window.addElement(make_shared<Shader>(shader));
 	
+	shared_ptr<Model> md = make_shared<Model>();
+	md->texture = md->makeTexture("p2.jpg",0);
+	md->data = md->makeData("test");
+	static float y = 0;
+
+	md->drawAppendOp([](shared_ptr<Model> md) {
+		//md->move(vec3(0.01f, 0.01, 0));
+		//md->rotate(1,vec3(0,0,1));
+		md->scale(vec3(1, 0.99, 1));
+	});
+
+	window.addModel(md);
 	window.run();
 	return 0;
 }

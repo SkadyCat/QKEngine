@@ -7,6 +7,7 @@
 #include <vector>
 #include<functional>
 #include<Element.h>
+#include <Model.h>
 using namespace std;
 
 enum BufferType
@@ -26,9 +27,12 @@ private:
     clock_t lastTimes;
     GLFWwindow* window;
 	function<void()> connectCallBack;
-	vector<shared_ptr<Element>> items;
+
+	vector<shared_ptr<Model>> models;
+	//vector<shared_ptr<Element>> staticItems;
+
 public:
-	void addElement(shared_ptr<Element> element);
+	void addModel(shared_ptr<Model> md);
 	void setDrawEvent(function<void()> connectCallBack);
     BaseWindow(/* args */);
     //~BaseWindow();
