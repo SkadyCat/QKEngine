@@ -1,26 +1,26 @@
 #include "Model.h"
 void Model::move(vec3 dst)
 {
-	trans = translate(trans, dst);
+	model = translate(model, dst);
 	homogeneousPos = trans * homogeneousPos;
 	pos.x = homogeneousPos.x;
 	pos.y = homogeneousPos.y;
 	pos.z = homogeneousPos.z;
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
+	glUniformMatrix4fv(modelTransform, 1, GL_FALSE, value_ptr(model));
 }
 
 void Model::rotate(float rot, vec3 axis)
 {
 	
-	trans = glm::rotate(trans, radians(rot),axis);
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
+	model = glm::rotate(model, radians(rot),axis);
+	glUniformMatrix4fv(modelTransform, 1, GL_FALSE, value_ptr(model));
 
 }
 
 void Model::scale(vec3 size)
 {
-	trans = glm::scale(trans, size);
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
+	model = glm::scale(model, size);
+	glUniformMatrix4fv(modelTransform, 1, GL_FALSE, value_ptr(model));
 }
 
 shared_ptr<Model> Model::self()
@@ -59,11 +59,32 @@ void Model::drawAppendOp(function<void(shared_ptr<Model>)> op)
 void Model::init()
 {
 
-	transformLoc = glGetUniformLocation(shader->ID, "transform");
+
 	shader->use();
 	texture->use();
 	
+	modelTransform = glGetUniformLocation(shader->ID, "model");
+	viewTransform = glGetUniformLocation(shader->ID, "view");
+	projectionTransform = glGetUniformLocation(shader->ID, "projection");
 	
+	model = mat4(1.0f);
+	//指定模型变换 初始位置
+	model = glm::translate(model, vec3(0, 0, 0));
+	glUniformMatrix4fv(modelTransform, 1, GL_FALSE, value_ptr(model));
+
+	//指定view 变换 矩阵
+	view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	glUniformMatrix4fv(viewTransform, 1, GL_FALSE, value_ptr(view));
+
+	//指定投影矩阵
+	projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+	glUniformMatrix4fv(projectionTransform, 1, GL_FALSE, value_ptr(projection));
+
+
+
+	
+	move(vec3(0, 0, 0));
 	if (initOp != nullptr) {
 		initOp(self());
 	}
@@ -71,7 +92,11 @@ void Model::init()
 
 void Model::draw()
 {
+
+
 	data->use();
+
+
 	if (drawOp != nullptr) {
 		drawOp(self());
 	}

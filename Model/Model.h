@@ -14,6 +14,11 @@ class Model : public std::enable_shared_from_this<Model>
 
 private:
 	unsigned int transformLoc;
+	unsigned int modelTransform;
+	unsigned int viewTransform;
+	unsigned int projectionTransform;
+
+
 	function<void(shared_ptr<Model>)> initOp;
 	function<void(shared_ptr<Model>)> drawOp;
 
@@ -31,6 +36,10 @@ public:
 
 	void initAppendOp(function<void(shared_ptr<Model>)> op);
 	void drawAppendOp(function<void(shared_ptr<Model>)>  op);
+
+	mat4 model;
+	mat4 view;
+	mat4 projection;
 
 	vec4 homogeneousPos;//∆Î¥ŒŒª÷√
 	mat4 trans;

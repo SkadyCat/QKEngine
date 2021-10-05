@@ -40,6 +40,9 @@ BaseWindow::BaseWindow()
 	}
 }
 void BaseWindow::run(){
+
+	glEnable(GL_DEPTH_TEST);
+
 	for (auto e : this->models)
 	{
 		e->init();
@@ -53,7 +56,7 @@ void BaseWindow::run(){
 		if (now - lastTimes > 50) {
 			cout << now - lastTimes << endl;
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			lastTimes = now;
 			for (auto e : this->models)
 			{
